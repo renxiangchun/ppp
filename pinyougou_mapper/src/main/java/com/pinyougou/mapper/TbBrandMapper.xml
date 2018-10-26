@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pinyougou.mapper.TbBrandMapper">
+
+    <select id="findAll" resultType="com.pinyougou.pojo.TbBrand">
+        select id,name,first_char as firstChar FROM tb_brand
+    </select>
+    <insert id="add" parameterType="com.pinyougou.pojo.TbBrand">
+        INSERT INTO `tb_brand` (`name`, `first_char`) VALUES (#{name},#{firstChar});
+    </insert>
+    <select id="findOne" parameterType="Long" resultType="com.pinyougou.pojo.TbBrand">
+        select id,name,first_char as firstChar FROM tb_brand where id = #{id}
+    </select>
+    <update id="update" parameterType="com.pinyougou.pojo.TbBrand">
+        update `tb_brand` set `name` = #{name}, `first_char` = #{firstChar} where id = #{id}
+    </update>
+    <delete id="delete" parameterType="Long">
+        DELETE from tb_brand where id = #{id}
+    </delete>
+    <select id="search" parameterType="com.pinyougou.pojo.TbBrand" resultType="com.pinyougou.pojo.TbBrand">
+        select id,name,first_char as firstChar FROM tb_brand
+        <!-- 作用：1、添加WHERE关键字；2、校验SQL语句去掉后面第一个AND-->
+        <where>
+            <!-- #{} ：站位符，有预编译过程；防止SQL注入；比如：张—>'张' -->
+            <!-- ${} : 字符串拼接符； 没有预编译过程，不能防止SQL注入；比如：张—>张 -->
+            <if test="name != null and name != '' ">
+                and name  like "%"#{name}"%"
+            </if>
+            <if test="firstChar != null and firstChar != ''">
+                AND first_char = #{firstChar}
+            </if>
+        </where>
+    </select>
+    <select id="selectOptionList" resultType="java.util.Map">
+        select id,name as text from tb_brand
+    </select>
+</mapper>

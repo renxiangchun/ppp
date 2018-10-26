@@ -1,0 +1,33 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+
+  <!--SpringIOC容器配置,加载applicationContext.xml-->
+  <!--
+    如何加载多个配置文件?
+    方式1：classpath:applicationContext1.xml,classpath:applicationContext2.xml
+    方式2：classpath:applicationContext*.xml
+    方式3：启动时候只加载applicationContext.xml,在这个文件内部通过<import resource="a.xml">
+    另外：
+        classpath:applicationContext.xml
+            加载当前项目类路径下的applicationContext.xml配置文件
+        classpath*:applicationContext.xml
+            加载所有项目类路径下的applicationContext.xml配置文件
+            包含了jar包中的类路径下的applicationContext.xml配置文件
+-->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <!--加载applicationContext-service.xml和applicationContext-tx.xml配置文件-->
+    <param-value>classpath*:spring/applicationContext*.xml</param-value>
+  </context-param>
+  <!--spring监听器-->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+</web-app>
